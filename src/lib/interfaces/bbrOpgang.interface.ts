@@ -1,0 +1,31 @@
+export interface DawaBBROpgang {
+    ois_id: number;
+    ois_ts: string;
+    Opgang_id: string;
+    AdgAdr_id: string;
+    ObjStatus: number;
+    NyByg: number;
+    Crud_id: string;
+    ByggeSag_id: string | null;
+    OpgStam_id: string | null;
+    Bygning_id: string;
+    Elevator: number;
+    DataFelt1: number;
+    DataFelt2: string | null;
+    DataFelt3: string | null;
+    SagsType: string;
+    KomFelt1: string | null;
+    KomFelt2: string | null;
+    KomFelt3: string | null;
+    KomFelt4: number;
+    KomFelt5: number;
+    KomFelt6: number;
+    JourNr: string | null;
+    ESDH_Ref: string | null;
+    SikKlas: number;
+    OPRET_TS: string;
+    AENDR_TS: string;
+    Aendr_Funk: string;
+    Ophoert_ts: string | null;
+    Gyldighedsdato: string | null;
+}
