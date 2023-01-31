@@ -47,7 +47,7 @@ export class DawaAPIProvider {
     async searchByParameter<T>(route: string, parameter: Record<string, string | number | boolean | JSON>) {
         return this.doGetRequest<T[]>(`${route}`, {
             params: {
-                parameter,
+                ...parameter,
             },
         });
     }

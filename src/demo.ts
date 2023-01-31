@@ -1,6 +1,7 @@
 import { AutocompleteUI, GetAutocompleteResponse } from '@oak-digital/dawa-autocomplete-ts';
 import { DawaAPIProvider } from './lib/Dawa.service';
 import { DawaAdresse } from './lib/interfaces/adresse.interface';
+
 import './style.css';
 
 const searchField = document.querySelector<HTMLInputElement>('#dawa-search-field');
@@ -14,7 +15,9 @@ function setSelectedItem(selected: GetAutocompleteResponse) {
 
     if (selectedItem.type === 'adresse') {
         const api = new DawaAPIProvider();
-        api.get<DawaAdresse>('adresser', selectedItem.data.id).then((adresse) => console.table(adresse));
+        api.get<DawaAdresse>('adresser/' + selectedItem.data.id).then((adresse) => {
+            console.table(adresse);
+        });
     }
 }
 
