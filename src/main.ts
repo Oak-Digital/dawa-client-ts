@@ -8,6 +8,7 @@ import type { DawaDataCollection } from './lib/interfaces/dawaDataCollection.int
 import { DawaHeatingCodes } from './lib/code-mappings/DawaHeatingCodes';
 import { DawaHeatingMaterial } from './lib/code-mappings/DawaHeatingMaterial';
 import type { DawaAPIConfig } from './lib/interfaces/dawaAPIConfig.interface';
+import type { DawaKommune } from './lib/interfaces/kommune.interface';
 // import type { CodeMap } from './lib/codeMappings/code-map.interface';
 
 export {
@@ -19,6 +20,7 @@ export {
     DawaBBREnhed,
     DawaBBROpgang,
     DawaDataCollection,
+    DawaKommune,
     // CodeMap,
     DawaHeatingCodes,
     DawaHeatingMaterial,
