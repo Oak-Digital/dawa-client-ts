@@ -1,9 +1,6 @@
 import { AutocompleteUI, GetAutocompleteResponse } from '@oak-digital/dawa-autocomplete-ts';
 import DawaAdresseProvider from './lib/Adresse.service';
-import DawaAdgangsAdresseProvider from './lib/AdgangsAdresse.service';
-
 import './style.css';
-import BBRBygningProvider from './lib/BBRBygning.service';
 
 const searchField = document.querySelector<HTMLInputElement>('#dawa-search-field');
 const resultList = document.querySelector<HTMLUListElement>('#dawa-result-list');
@@ -17,15 +14,16 @@ function setSelectedItem(selected: GetAutocompleteResponse) {
 
     if (selectedItem.type === 'adresse') {
         const adresseProvider = new DawaAdresseProvider();
-        const adgangsAdresseProvider = new DawaAdgangsAdresseProvider();
-        const bygningProvider = new BBRBygningProvider();
 
-        adresseProvider.getOneByID(selectedItem.data.id).then((adresse) => {
-            adgangsAdresseProvider.getOneByIDExtended(adresse.adgangsadresseid).then((adgangsAdresse) => {
-                bygningProvider.search({ esrejendomsnr: adgangsAdresse.esrejendomsnr }).then((buildings) => {
-                    if (selectedArea) selectedArea.innerHTML = JSON.stringify(buildings, null, 2);
-                });
-            });
+        adresseProvider.getAllAssociatedByID(selectedItem.data.id).then((adresser) => {
+            if (selectedArea)
+                selectedArea.innerHTML = JSON.stringify(
+                    adresser.map((addr) => {
+                        return addr.betegnelse;
+                    }),
+                    null,
+                    2
+                );
         });
     }
 }

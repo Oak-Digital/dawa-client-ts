@@ -1,5 +1,6 @@
 import { DawaAPIProvider } from './Dawa.service';
 import { DawaAdresse } from './interfaces/adresse.interface';
+import { DawaAdresseExtended } from './interfaces/adresseExtended.interface';
 
 export default class DawaAdresseProvider {
     private api: DawaAPIProvider;
@@ -15,5 +16,16 @@ export default class DawaAdresseProvider {
 
     async search(query: string) {
         return this.api.get<DawaAdresse[]>(`${this.domain}`, { params: { struktur: 'mini', query: query } });
+    }
+
+    async getAllAssociatedByID(id: string) {
+        const address = await this.api.get<DawaAdresseExtended>(`${this.domain}/${id}`, {});
+        return this.api.get<DawaAdresse[]>(`${this.domain}`, {
+            params: {
+                struktur: 'mini',
+                esrejendomsnr: address.adgangsadresse.esrejendomsnr,
+                kommunekode: address.adgangsadresse.kommune.kode,
+            },
+        });
     }
 }
