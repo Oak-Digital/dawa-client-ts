@@ -10,10 +10,10 @@ export default class DawaAdresseProvider {
     }
 
     async getOneByID(id: string) {
-        return this.api.get<DawaAdresse>(`${this.domain}/${id}`);
+        return this.api.get<DawaAdresse>(`${this.domain}/${id}`, { params: { struktur: 'mini' } });
     }
 
     async search(query: string) {
-        return this.api.searchByParameter<DawaAdresse[]>(`${this.domain}`, { query: query });
+        return this.api.get<DawaAdresse[]>(`${this.domain}`, { params: { struktur: 'mini', query: query } });
     }
 }

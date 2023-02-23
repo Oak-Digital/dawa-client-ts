@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>DAWA API demo</title>
+        <title>DAWA API - Demo</title>
         <link rel="stylesheet" href="https://unpkg.com/@picocss/pico@latest/css/pico.min.css" />
     </head>
 
@@ -16,21 +16,10 @@
                     <input id="dawa-search-field" type="search" />
                     <ul id="dawa-result-list" class="result-list"></ul>
                 </article>
-                <!-- <article>
-                    <h2></h2>
-                    <table role="grid">
-                        <thead>
-                            <tr>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </article> -->
+                <article>
+                    Selected:
+                    <pre class="code" id="dawa-selected"></pre>
+                </article>
             </section>
         </main>
         <script type="module" src="/src/demo.ts"></script>

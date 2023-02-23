@@ -4,8 +4,14 @@ import { DawaBBROpgang } from '../lib/interfaces/bbrOpgang.interface';
 import { DawaAdresse } from '../lib/interfaces/adresse.interface';
 import { DawaBBRBygning } from '../lib/interfaces/bbrBygning.interface';
 import { DawaAdgangsAdresse } from '../lib/interfaces/adgangsAdresse.interface';
+import DawaAdresseProvider from '../lib/Adresse.service';
+import DawaAdgangsAdresseProvider from '../lib/AdgangsAdresse.service';
+import DawaBBRBygningProvider from '../lib/BBRBygning.service';
 
 const api = new DawaAPIProvider();
+const adresseProvider = new DawaAdresseProvider();
+const adgangsAdresseProvider = new DawaAdgangsAdresseProvider();
+
 const testAdresser = [
     'b47ff2c4-fbe7-47bf-98b4-b0b9c343a819',
     '2183dc88-dcbb-4202-a5d2-493f9d7ea4c2',
@@ -18,14 +24,14 @@ const testAdresser = [
 describe('adresser', () => {
     testAdresser.forEach(async (id) => {
         test('get by ID', async () => {
-            const adresseData = await api.get<DawaAdresse>('adresser/' + id);
+            const adresseData = await adresseProvider.getOneByID(id);
             expectTypeOf(adresseData).toEqualTypeOf<DawaAdresse>();
         });
     });
 
     test('get invalid ID', async () => {
         expect(async () => {
-            await api.get<DawaAdresse>('adresser/' + 'invalid');
+            await adresseProvider.getOneByID('invalid');
         }).rejects.toThrowError('Request failed with status code 404');
     });
 });
@@ -33,18 +39,15 @@ describe('adresser', () => {
 describe('adgangsadresser', () => {
     testAdresser.forEach(async (id) => {
         test('get by ID', async () => {
-            const adresseData = await api.get<DawaAdresse>('adresser/' + id);
-
-            const adgangsAdresseData = await api.get<DawaAdgangsAdresse>(
-                'adgangsadresser/' + adresseData.adgangsadresseid
-            );
+            const adresseData = await adresseProvider.getOneByID(id);
+            const adgangsAdresseData = await adgangsAdresseProvider.getOneByID(adresseData.adgangsadresseid);
             expectTypeOf(adgangsAdresseData).toEqualTypeOf<DawaAdgangsAdresse>();
         });
     });
 
     test('get invalid ID', async () => {
         expect(async () => {
-            await api.get<DawaAdgangsAdresse>('adgangsadresser/' + 'invalid');
+            await adgangsAdresseProvider.getOneByID('invalid');
         }).rejects.toThrowError('Request failed with status code 404');
     });
 });
@@ -54,9 +57,10 @@ describe('opgange', () => {
         test('get by ID', async () => {
             const adresseData = await api.get<DawaAdresse>('adresser/' + id);
 
-            const opgangsData = await api.searchByParameter<DawaBBROpgang>('bbrlight/opgange', {
-                adgangsadresseid: adresseData.adgangsadresseid,
+            const opgangsData = await api.get<DawaBBROpgang[]>('bbrlight/opgange', {
+                params: { adgangsadresseid: adresseData.adgangsadresseid, struktur: 'mini' },
             });
+
             expectTypeOf(opgangsData).toEqualTypeOf<DawaBBROpgang[]>();
         });
     });
@@ -69,15 +73,17 @@ describe('opgange', () => {
 });
 
 describe('bygninger', () => {
+    const bygningProvider = new DawaBBRBygningProvider();
+
     testAdresser.forEach(async (id) => {
-        const adresseData = await api.get<DawaAdresse>('adresser/' + id);
-        const opgangsData = await api.searchByParameter<DawaBBROpgang>('bbrlight/opgange', {
-            adgangsadresseid: adresseData.adgangsadresseid,
+        const adresseData = await adresseProvider.getOneByID(id);
+        const opgangsData = await api.get<DawaBBROpgang[]>('bbrlight/opgange', {
+            params: { adgangsadresseid: adresseData.adgangsadresseid, struktur: 'mini' },
         });
 
         opgangsData.forEach((opgang) => {
             test('get by ID', async () => {
-                const bygningsData = await api.get<DawaBBRBygning>('bbrlight/bygninger/' + opgang.Bygning_id);
+                const bygningsData = await bygningProvider.getOneByID(opgang.Bygning_id);
                 expectTypeOf(bygningsData).toEqualTypeOf<DawaBBRBygning>();
             });
         });

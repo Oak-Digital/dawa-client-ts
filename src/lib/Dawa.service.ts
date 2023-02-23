@@ -1,29 +1,23 @@
 import axios, { AxiosError, AxiosInstance, AxiosRequestConfig } from 'axios';
-import { DawaAPIConfig } from './interfaces/dawaAPIConfig.interface';
 
-const defaultConfig: DawaAPIConfig = {
+export type RequestParameters = Record<string, string | number | boolean | JSON>;
+
+const defaultConfig: RequestParameters = {
     baseURL: 'https://api.dataforsyningen.dk',
-    params: {
-        struktur: 'mini',
-        side: 1,
-        per_side: 10,
-        fuzzy: true,
-    },
 };
 
 export class DawaAPIProvider {
     private client: AxiosInstance;
-    private config: DawaAPIConfig;
 
-    constructor(config?: DawaAPIConfig) {
-        this.config = config ?? defaultConfig;
+    constructor(config?: RequestParameters) {
+        const axiosConfig = config ?? defaultConfig;
 
         this.client = axios.create({
-            ...this.config,
+            ...axiosConfig,
         });
     }
 
-    async doGetRequest<T>(route: string, config?: AxiosRequestConfig) {
+    async get<T>(route: string, config: AxiosRequestConfig = { params: { struktur: 'mini' } }) {
         const { data } = await this.client
             .get<T>(route, config)
             .then((response) => {
@@ -38,17 +32,5 @@ export class DawaAPIProvider {
                 throw e;
             });
         return data;
-    }
-
-    async get<T>(route: string) {
-        return this.doGetRequest<T>(`${route}`);
-    }
-
-    async searchByParameter<T>(route: string, parameter: Record<string, string | number | boolean | JSON>) {
-        return this.doGetRequest<T[]>(`${route}`, {
-            params: {
-                ...parameter,
-            },
-        });
     }
 }

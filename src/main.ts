@@ -7,13 +7,16 @@ import type { DawaBBROpgang } from './lib/interfaces/bbrOpgang.interface';
 import type { DawaDataCollection } from './lib/interfaces/dawaDataCollection.interface';
 import { DawaHeatingCodes } from './lib/code-mappings/DawaHeatingCodes';
 import { DawaHeatingMaterial } from './lib/code-mappings/DawaHeatingMaterial';
-import type { DawaAPIConfig } from './lib/interfaces/dawaAPIConfig.interface';
 import type { DawaKommune } from './lib/interfaces/kommune.interface';
-// import type { CodeMap } from './lib/codeMappings/code-map.interface';
+import DawaAdresseProvider from './lib/Adresse.service';
+import DawaAdgangsAdresseProvider from './lib/AdgangsAdresse.service';
+import DawaBBRBygningProvider from './lib/BBRBygning.service';
 
 export {
     DawaAPIProvider,
-    DawaAPIConfig,
+    DawaAdresseProvider,
+    DawaAdgangsAdresseProvider,
+    DawaBBRBygningProvider,
     DawaAdresse,
     DawaAdgangsAdresse,
     DawaBBRBygning,
@@ -21,7 +24,6 @@ export {
     DawaBBROpgang,
     DawaDataCollection,
     DawaKommune,
-    // CodeMap,
     DawaHeatingCodes,
     DawaHeatingMaterial,
 };
