@@ -18,6 +18,10 @@ export default class DawaAdresseProvider {
         return this.api.get<DawaAdresse[]>(`${this.domain}`, { params: { struktur: 'mini', query: query } });
     }
 
+    async getOneExtendedByID(id: string) {
+        return this.api.get<DawaAdresseExtended>(`${this.domain}/${id}`, {});
+    }
+
     async getAllAssociatedByID(id: string) {
         const address = await this.api.get<DawaAdresseExtended>(`${this.domain}/${id}`, {});
         return this.api.get<DawaAdresse[]>(`${this.domain}`, {

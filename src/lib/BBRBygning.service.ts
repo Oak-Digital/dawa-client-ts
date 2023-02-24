@@ -1,4 +1,4 @@
-import { DawaBBRBygning } from '../main';
+import { DawaAdresseProvider, DawaBBRBygning } from '../main';
 import { DawaAPIProvider, RequestParameters } from './Dawa.service';
 
 export default class DawaBBRBygningProvider {
@@ -15,5 +15,18 @@ export default class DawaBBRBygningProvider {
 
     async search(query: RequestParameters) {
         return this.api.get<DawaBBRBygning[]>(`${this.domain}`, { params: { struktur: 'mini', ...query } });
+    }
+
+    async getAssociatedByAddressID(id: string) {
+        const adresseProvider = new DawaAdresseProvider();
+        const address = await adresseProvider.getOneExtendedByID(id);
+
+        return this.api.get<DawaBBRBygning[]>(`${this.domain}`, {
+            params: {
+                struktur: 'mini',
+                esrejendomsnr: address.adgangsadresse.esrejendomsnr,
+                kommunekode: address.adgangsadresse.kommune.kode,
+            },
+        });
     }
 }
