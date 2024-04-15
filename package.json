@@ -22,7 +22,9 @@
         "lint": "eslint .",
         "format": "prettier -w .",
         "test": "vitest",
-        "coverage": "vitest run --coverage"
+        "coverage": "vitest run --coverage",
+        "bumpp": "pnpm i -D bumpp",
+        "release": "bumpp"
     },
     "devDependencies": {
         "@oak-digital/dawa-autocomplete-ts": "^0.1.4",
