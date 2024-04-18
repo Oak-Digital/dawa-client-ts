@@ -19,6 +19,6 @@ export default class DawaAdgangsAdresseProvider {
     }
 
     async search(query: string) {
-        return this.api.get<DawaAdgangsAdresse[]>(`${this.domain}`, { params: { query: query, struktur: 'mini' } });
+        return this.api.get<DawaAdgangsAdresse[]>(`${this.domain}`, { params: { q: query, struktur: 'mini' } });
     }
 }
